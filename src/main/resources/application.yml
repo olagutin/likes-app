@@ -1,0 +1,58 @@
+server:
+  port: 8080
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
+#logging:
+#  level:
+#    root: WARN
+#    com.com.likes-app: DEBUG
+#    org.springframework.orm.jpa: DEBUG
+
+spring:
+  sql.init.mode: always
+#  main.allow-circular-references: true
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+          auto-create-topics: true
+          auto-add-partitions: true
+          consumer-properties:
+            max.poll.records: 200
+            fetch.max.wait.ms: 100
+      bindings:
+        likesConsumer-in-0:
+          destination: com.likes-app
+          group: likes-consumer-group
+          consumer:
+            maxAttempts: 1
+#            batch-mode: true
+            concurrency: 5
+        likesProducer-out-0:
+          destination: com.likes-app
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: none
+#        show_sql: true
+#        format_sql: true
+  datasource:
+    hikari:
+      transaction-isolation: TRANSACTION_READ_COMMITTED # TRANSACTION_READ_COMMITTED / TRANSACTION_REPEATABLE_READ / TRANSACTION_SERIALIZABLE
+      maximum-pool-size: 10
+#      connection-timeout: 5000
+#      auto-commit: off
+    url: jdbc:postgresql://localhost:5432/main_db?currentSchema=likesSchema
+    username: postgres
+    password: postgres
+
+management:
+#  metrics.tags.application: transactions-locks-app
+  endpoints.web.exposure.include: health,info,prometheus
+
+
