@@ -7,31 +7,31 @@ import org.springframework.stereotype.Service;
 import com.likesapp.dto.Likes;
 import com.likesapp.entities.HistoryEntity;
 import com.likesapp.repository.HistoryRepository;
-import com.likesapp.repository.SpeakersRepository;
+import com.likesapp.repository.UsersRepository;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SpeakerService {
+public class UserService {
 
-    private final SpeakersRepository speakersRepository;
+    private final UsersRepository usersRepository;
     private final HistoryRepository historyRepository;
     private final StreamBridge streamBridge;
 
     /**
-     * Method for adding likes to speaker by ID or TalkName.
+     * Method for adding likes to speaker by ID or NickName.
      *
      * @param likes DTO with information about likes to be added.
      */
-    public void addLikesToSpeaker(Likes likes) {
-        if (likes.getTalkName() != null) {
-            speakersRepository.findByTalkName(likes.getTalkName()).ifPresentOrElse(speaker -> {
+    public void addLikesToUser(Likes likes) {
+        if (likes.getNickName() != null) {
+            usersRepository.findByNickName(likes.getNickName()).ifPresentOrElse(speaker -> {
                 saveMessageToHistory(likes, "RECEIVED");
                 speaker.setLikes(speaker.getLikes() + likes.getLikes());
-                speakersRepository.save(speaker);
+                usersRepository.save(speaker);
                 log.info("{} likes added to {}", likes.getLikes(), speaker.getFirstName() + " " + speaker.getLastName());
             }, () -> {
-                log.warn("Speaker with talk {} not found", likes.getTalkName());
+                log.warn("User with talk {} not found", likes.getNickName());
                 saveMessageToHistory(likes, "ORPHANED");
             });
         } else {
@@ -59,7 +59,7 @@ public class SpeakerService {
     private void saveMessageToHistory(Likes likes, String status) {
         try {
             historyRepository.save(HistoryEntity.builder()
-                    .talkName(likes.getTalkName())
+                    .nickName(likes.getNickName())
                     .likes(likes.getLikes())
                     .status(status)
                     .build());

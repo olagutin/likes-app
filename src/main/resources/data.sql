@@ -1,22 +1,22 @@
-CREATE TABLE IF NOT EXISTS likes.speakers
+CREATE TABLE IF NOT EXISTS likes.users
 (
     id        SERIAL    NOT NULL,
     firstname varchar   NOT NULL,
     lastname  varchar   NOT NULL,
-    talkname  varchar   NOT NULL,
+    nickname  varchar   NOT NULL,
     likes     int8      NULL,
     created   timestamp NULL,
     updated   timestamp NULL,
 
-    CONSTRAINT speakers_pk PRIMARY KEY (id),
-    CONSTRAINT talkname_unique UNIQUE (talkname)
+    CONSTRAINT users_pk PRIMARY KEY (id),
+    CONSTRAINT nickname_unique UNIQUE (nickname)
     );
 
 
 CREATE TABLE IF NOT EXISTS likes.history
 (
     id       SERIAL    NOT NULL,
-    talkname varchar   NULL,
+    nickname varchar   NULL,
     likes    int8      NULL,
     status   varchar   NULL,
     created  timestamp NULL,
@@ -24,5 +24,7 @@ CREATE TABLE IF NOT EXISTS likes.history
     CONSTRAINT history_pk PRIMARY KEY (id)
     );
 
-INSERT INTO likes.speakers (id, firstname, lastname, talkname, likes, created, updated)
+INSERT INTO likes.users (id, firstname, lastname, nickname, likes, created, updated)
 VALUES (1, 'John', 'Doe', 'Spring best practice', 0, now(), now());
+
+DELETE FROM likes.users;

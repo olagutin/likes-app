@@ -17,13 +17,13 @@ import java.time.Duration;
 @Transactional
 public class RedisLockProvider {
 
-    private final RedisTemplate<String, String> redisTemplate;
-
-    public Boolean tryToAcquireLock(String id, Duration ttl) {
-        return redisTemplate.opsForValue().setIfAbsent(id, "locked", ttl);
-    }
-
-    public void releaseLock(String id) {
-        redisTemplate.opsForValue().getAndDelete(id);
-    }
+//    private final RedisTemplate<String, String> redisTemplate;
+//
+//    public Boolean tryToAcquireLock(String id, Duration ttl) {
+//        return redisTemplate.opsForValue().setIfAbsent(id, "locked", ttl);
+//    }
+//
+//    public void releaseLock(String id) {
+//        redisTemplate.opsForValue().getAndDelete(id);
+//    }
 }

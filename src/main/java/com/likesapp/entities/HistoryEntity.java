@@ -4,7 +4,7 @@ package com.likesapp.entities;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,8 +20,8 @@ public class HistoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "talkname")
-    private String talkName;
+    @Column(name = "nickname")
+    private String nickName;
 
     private int likes;
 

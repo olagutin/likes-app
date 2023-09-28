@@ -12,7 +12,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.likesapp.dto.Likes;
-import com.likesapp.service.SpeakerService;
+import com.likesapp.service.UserService;
 
 @Slf4j
 @RestController
@@ -30,7 +30,7 @@ public class TestPoolController {
     //<editor-fold desc="TransactionTemplate">
 
     private final TransactionTemplate transactionTemplate;
-    private final SpeakerService speakerService;
+    private final UserService speakerService;
 
 
     private void usingTransactionTemplate() {
@@ -40,18 +40,18 @@ public class TestPoolController {
         transactionTemplate.setName(this.getClass().getSimpleName());
         transactionTemplate.execute(status -> {
             var likes = Likes.builder()
-                    .talkName("Spring best practice")
+                    .nickName("Spring best practice")
                     .likes(100)
                     .build();
-            speakerService.addLikesToSpeaker(likes);
+            speakerService.addLikesToUser(likes);
 //            throw new RuntimeException();
-            return likes.getTalkName();
+            return likes.getNickName();
         });
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
-                speakerService.addLikesToSpeaker(Likes.builder()
-                        .talkName("Spring best practice")
+                speakerService.addLikesToUser(Likes.builder()
+                        .nickName("Spring best practice")
                         .likes(100)
                         .build());
             }

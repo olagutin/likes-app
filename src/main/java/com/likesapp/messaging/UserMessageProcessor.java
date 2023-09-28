@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.likesapp.dto.Likes;
-import com.likesapp.service.SpeakerService;
+import com.likesapp.service.UserService;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SpeakerMessageProcessor {
+public class UserMessageProcessor {
 
-    private final SpeakerService speakerService;
+    private final UserService speakerService;
 
     public void processOneMessage(Likes likes) {
-        speakerService.addLikesToSpeaker(likes);
+        speakerService.addLikesToUser(likes);
     }
 
     //<editor-fold desc="Batch Processing">
@@ -28,12 +28,12 @@ public class SpeakerMessageProcessor {
 
         var accumulatedLikes = likes.stream()
                 .filter(Objects::nonNull)
-                .filter(x -> x.getTalkName() != null)
-                .filter(x -> !x.getTalkName().isEmpty())
-                .collect(Collectors.groupingBy(Likes::getTalkName))
+                .filter(x -> x.getNickName() != null)
+                .filter(x -> !x.getNickName().isEmpty())
+                .collect(Collectors.groupingBy(Likes::getNickName))
                 .values().stream()
-                .map(likesListTalkName -> likesListTalkName.stream().reduce(new Likes(), (x, y) -> Likes.builder()
-                        .talkName(y.getTalkName())
+                .map(likesListNickName -> likesListNickName.stream().reduce(new Likes(), (x, y) -> Likes.builder()
+                        .nickName(y.getNickName())
                         .likes(x.getLikes() + y.getLikes())
                         .build()))
                 .collect(Collectors.toList());
@@ -41,7 +41,7 @@ public class SpeakerMessageProcessor {
 
         try {
             var futures = accumulatedLikes.stream()
-                    .map(like -> CompletableFuture.runAsync(() -> speakerService.addLikesToSpeaker(like)))
+                    .map(like -> CompletableFuture.runAsync(() -> speakerService.addLikesToUser(like)))
                     .toArray(CompletableFuture[]::new);
             CompletableFuture.allOf(futures).join();
         } catch (CompletionException ex) {

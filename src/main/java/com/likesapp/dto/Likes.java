@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Likes {
 
-    @JsonProperty("talkName")
-    private String talkName;
+    @JsonProperty("nickName")
+    private String nickName;
 
     @JsonProperty("likes")
     private int likes;

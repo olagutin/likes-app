@@ -1,6 +1,6 @@
 package com.likesapp.config;
 
-import com.likesapp.messaging.SpeakerMessageProcessor;
+import com.likesapp.messaging.UserMessageProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class StreamsConfig {
 
-    private final SpeakerMessageProcessor messageProcessor;
+    private final UserMessageProcessor messageProcessor;
 
     @Bean
     Consumer<Likes> likesConsumer2() {

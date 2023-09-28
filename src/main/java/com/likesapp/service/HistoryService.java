@@ -22,7 +22,7 @@ public class HistoryService {
      */
     synchronized public void saveMessageToHistory(Likes likes, String status) {
         historyRepository.save(HistoryEntity.builder()
-                .talkName(likes.getTalkName())
+                .nickName(likes.getNickName())
                 .likes(likes.getLikes())
                 .status(status)
                 .build());

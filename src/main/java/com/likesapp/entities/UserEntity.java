@@ -4,7 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "speakers")
-public class SpeakerEntity {
+@Table(name = "users")
+public class UserEntity {
 
     @Id
     private Long id;
@@ -25,8 +25,8 @@ public class SpeakerEntity {
     @Column(name = "lastname")
     private String lastName;
 
-    @Column(name = "talkname")
-    private String talkName;
+    @Column(name = "nickname")
+    private String nickName;
 
     private int likes;
 

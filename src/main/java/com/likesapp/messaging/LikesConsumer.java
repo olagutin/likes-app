@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class LikesConsumer implements Consumer<Likes> {
 
-    private final SpeakerMessageProcessor messageProcessor;
+    private final UserMessageProcessor messageProcessor;
 
     @Override
     public void accept(Likes likes) {
