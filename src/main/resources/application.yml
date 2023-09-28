@@ -25,14 +25,14 @@ spring:
             fetch.max.wait.ms: 100
       bindings:
         likesConsumer-in-0:
-          destination: com.likes-app
+          destination: com.likesapp
           group: likes-consumer-group
           consumer:
             maxAttempts: 1
 #            batch-mode: true
             concurrency: 5
         likesProducer-out-0:
-          destination: com.likes-app
+          destination: com.likesapp
   jpa:
     open-in-view: false
     properties:
@@ -47,7 +47,7 @@ spring:
       maximum-pool-size: 10
 #      connection-timeout: 5000
 #      auto-commit: off
-    url: jdbc:postgresql://localhost:5432/main_db?currentSchema=likesSchema
+    url: jdbc:postgresql://localhost:5432/main_db?currentSchema=likes
     username: postgres
     password: postgres
 

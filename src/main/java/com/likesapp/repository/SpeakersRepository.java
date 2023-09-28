@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.likesapp.entities.SpeakerEntity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.util.Optional;
 
 @Repository
