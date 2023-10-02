@@ -3,7 +3,7 @@ package com.likesapp.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.likesapp.dto.Likes;
+import com.likesapp.dto.LikesDto;
 import com.likesapp.entities.HistoryEntity;
 import com.likesapp.repository.HistoryRepository;
 
@@ -20,7 +20,7 @@ public class HistoryService {
      *
      * @param likes DTO with information about likes to be added.
      */
-    synchronized public void saveMessageToHistory(Likes likes, String status) {
+    synchronized public void saveMessageToHistory(LikesDto likes, String status) {
         historyRepository.save(HistoryEntity.builder()
                 .nickName(likes.getNickName())
                 .likes(likes.getLikes())

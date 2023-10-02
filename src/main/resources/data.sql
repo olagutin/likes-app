@@ -24,7 +24,11 @@ CREATE TABLE IF NOT EXISTS likes.history
     CONSTRAINT history_pk PRIMARY KEY (id)
     );
 
-INSERT INTO likes.users (id, firstname, lastname, nickname, likes, created, updated)
-VALUES (1, 'John', 'Doe', 'Spring best practice', 0, now(), now());
-
 DELETE FROM likes.users;
+
+INSERT INTO likes.users (id, firstname, lastname, nickname, likes, created, updated)
+VALUES (1, 'John', 'Doe', 'jdoe', 0, now(), now());
+
+
+
+SELECT * FROM likes.users

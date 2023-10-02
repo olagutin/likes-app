@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.likesapp.dto.Likes;
+import com.likesapp.dto.LikesDto;
 import com.likesapp.service.UserService;
 
 @Slf4j
@@ -18,7 +18,7 @@ public class UserController {
     private final UserService service;
 
     @PostMapping("/addlikes")
-    public ResponseEntity<String> updateUser(@RequestBody Likes likes) {
+    public ResponseEntity<String> updateUser(@RequestBody LikesDto likes) {
         try {
             service.addLikesToUser(likes);
             return new ResponseEntity<>("Likes successfully added.", HttpStatus.ACCEPTED);

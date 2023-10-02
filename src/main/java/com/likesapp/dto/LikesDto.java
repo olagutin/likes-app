@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Likes {
+public class LikesDto {
 
     @JsonProperty("nickName")
     private String nickName;

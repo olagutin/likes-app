@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
-import com.likesapp.dto.Likes;
+import com.likesapp.dto.LikesDto;
 import com.likesapp.entities.HistoryEntity;
 import com.likesapp.repository.HistoryRepository;
 import com.likesapp.repository.UsersRepository;
@@ -23,7 +23,7 @@ public class UserService {
      *
      * @param likes DTO with information about likes to be added.
      */
-    public void addLikesToUser(Likes likes) {
+    public void addLikesToUser(LikesDto likes) {
         if (likes.getNickName() != null) {
             usersRepository.findByNickName(likes.getNickName()).ifPresentOrElse(speaker -> {
                 saveMessageToHistory(likes, "RECEIVED");
@@ -31,7 +31,7 @@ public class UserService {
                 usersRepository.save(speaker);
                 log.info("{} likes added to {}", likes.getLikes(), speaker.getFirstName() + " " + speaker.getLastName());
             }, () -> {
-                log.warn("User with talk {} not found", likes.getNickName());
+                log.warn("User with nickname {} not found", likes.getNickName());
                 saveMessageToHistory(likes, "ORPHANED");
             });
         } else {
@@ -46,7 +46,7 @@ public class UserService {
      *
      * @param likes DTO with information about likes to be added.
      */
-    public void createTaskToAddLikes(Likes likes) {
+    public void createTaskToAddLikes(LikesDto likes) {
         streamBridge.send("likesProducer-out-0", likes);
     }
 
@@ -56,7 +56,7 @@ public class UserService {
      *
      * @param likes DTO with information about likes to be added.
      */
-    private void saveMessageToHistory(Likes likes, String status) {
+    private void saveMessageToHistory(LikesDto likes, String status) {
         try {
             historyRepository.save(HistoryEntity.builder()
                     .nickName(likes.getNickName())

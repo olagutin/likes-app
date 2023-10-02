@@ -3,7 +3,7 @@ package com.likesapp.messaging;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.likesapp.dto.Likes;
+import com.likesapp.dto.LikesDto;
 import com.likesapp.service.UserService;
 
 import java.util.List;
@@ -19,20 +19,20 @@ public class UserMessageProcessor {
 
     private final UserService speakerService;
 
-    public void processOneMessage(Likes likes) {
+    public void processOneMessage(LikesDto likes) {
         speakerService.addLikesToUser(likes);
     }
 
     //<editor-fold desc="Batch Processing">
-    public void processBatchOfMessages(List<Likes> likes) {
+    public void processBatchOfMessages(List<LikesDto> likes) {
 
         var accumulatedLikes = likes.stream()
                 .filter(Objects::nonNull)
                 .filter(x -> x.getNickName() != null)
                 .filter(x -> !x.getNickName().isEmpty())
-                .collect(Collectors.groupingBy(Likes::getNickName))
+                .collect(Collectors.groupingBy(LikesDto::getNickName))
                 .values().stream()
-                .map(likesListNickName -> likesListNickName.stream().reduce(new Likes(), (x, y) -> Likes.builder()
+                .map(likesListNickName -> likesListNickName.stream().reduce(new LikesDto(), (x, y) -> LikesDto.builder()
                         .nickName(y.getNickName())
                         .likes(x.getLikes() + y.getLikes())
                         .build()))

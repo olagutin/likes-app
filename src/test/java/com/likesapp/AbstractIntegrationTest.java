@@ -27,9 +27,9 @@ public abstract class AbstractIntegrationTest {
 
     @Container
     private static PostgreSQLContainer<?> POSTGRESQL_CONTAINER = new PostgreSQLContainer<>("postgres:12.10")
-            .withDatabaseName("database")
+            .withDatabaseName("main_db")
             .withUsername("postgres")
-            .withPassword("password");
+            .withPassword("postgres");
 
     @Container
     private static GenericContainer REDIS_CONTAINER = new GenericContainer(DockerImageName.parse("redis:7.0.0"))
