@@ -20,7 +20,7 @@ public class UserController {
     @PostMapping("/addlikes")
     public ResponseEntity<String> updateUser(@RequestBody LikesDto likes) {
         try {
-            service.addLikesToUser(likes);
+            service.createTaskToAddLikes(likes);
             return new ResponseEntity<>("Likes successfully added.", HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             log.warn("Exception in controller:", ex);

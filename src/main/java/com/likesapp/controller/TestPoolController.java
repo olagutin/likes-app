@@ -19,18 +19,18 @@ import com.likesapp.service.UserService;
 @RequiredArgsConstructor
 public class TestPoolController {
 
+
     @GetMapping("/test")
     @Transactional
     public ResponseEntity<String> testTransaction() throws InterruptedException {
         log.warn("Thread {} started", Thread.currentThread().getId());
+        Thread.sleep(8000);
         log.warn("Thread {} finished the work", Thread.currentThread().getId());
         return new ResponseEntity<>("Test passed!", HttpStatus.OK);
     }
 
-    //<editor-fold desc="TransactionTemplate">
-
     private final TransactionTemplate transactionTemplate;
-    private final UserService speakerService;
+    private final UserService userService;
 
 
     private void usingTransactionTemplate() {
@@ -43,19 +43,18 @@ public class TestPoolController {
                     .nickName("Spring best practice")
                     .likes(100)
                     .build();
-            speakerService.addLikesToUser(likes);
+            userService.addLikesToUser(likes);
 //            throw new RuntimeException();
             return likes.getNickName();
         });
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
-                speakerService.addLikesToUser(LikesDto.builder()
+                userService.addLikesToUser(LikesDto.builder()
                         .nickName("Spring best practice")
                         .likes(100)
                         .build());
             }
         });
     }
-    //</editor-fold>
 }

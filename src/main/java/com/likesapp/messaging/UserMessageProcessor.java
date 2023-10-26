@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.likesapp.dto.LikesDto;
 import com.likesapp.service.UserService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,13 +18,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserMessageProcessor {
 
-    private final UserService speakerService;
+    private final UserService userService;
 
     public void processOneMessage(LikesDto likes) {
-        speakerService.addLikesToUser(likes);
+        userService.addLikesToUser(likes);
     }
 
-    //<editor-fold desc="Batch Processing">
+    @Transactional
     public void processBatchOfMessages(List<LikesDto> likes) {
 
         var accumulatedLikes = likes.stream()
@@ -41,12 +42,12 @@ public class UserMessageProcessor {
 
         try {
             var futures = accumulatedLikes.stream()
-                    .map(like -> CompletableFuture.runAsync(() -> speakerService.addLikesToUser(like)))
+                    .map(like -> CompletableFuture.runAsync(() -> userService.addLikesToUser(like)))
                     .toArray(CompletableFuture[]::new);
             CompletableFuture.allOf(futures).join();
         } catch (CompletionException ex) {
             log.error("Something went wrong during batch processing.:", ex);
         }
     }
-    //</editor-fold>
+
 }

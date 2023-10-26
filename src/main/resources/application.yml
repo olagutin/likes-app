@@ -11,7 +11,7 @@ server:
 #    org.springframework.orm.jpa: DEBUG
 
 spring:
-#  sql.init.mode: always
+  sql.init.mode: always
 #  main.allow-circular-references: true
   cloud:
     stream:
@@ -25,14 +25,14 @@ spring:
             fetch.max.wait.ms: 100
       bindings:
         likesConsumer-in-0:
-          destination: com.likesapp
+          destination: likesTopic
           group: likes-consumer-group
           consumer:
             maxAttempts: 1
-#            batch-mode: true
+            batch-mode: true
             concurrency: 5
         likesProducer-out-0:
-          destination: com.likesapp
+          destination: likesTopic
   jpa:
     open-in-view: false
     properties:
